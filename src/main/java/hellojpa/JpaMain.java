@@ -50,6 +50,7 @@ public class JpaMain {
             int rscnt = em.createQuery("update Member m set m.age = 20")
                     .executeUpdate();
             System.out.println("rscnt = " + rscnt);
+            em.clear();// flush는 자동이나 영속성 컨텍스트가 있으니 초기화로 clear
             tx.commit();
         }
         catch (Exception e)
