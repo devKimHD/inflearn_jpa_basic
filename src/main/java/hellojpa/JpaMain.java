@@ -51,6 +51,8 @@ public class JpaMain {
                     .executeUpdate();
             System.out.println("rscnt = " + rscnt);
             em.clear();// flush는 자동이나 영속성 컨텍스트가 있으니 초기화로 clear
+            Member member1 = em.find(Member.class, 1L);
+            System.out.println("member1 = " + member1);
             tx.commit();
         }
         catch (Exception e)
