@@ -3,6 +3,7 @@ package hellojpa.jpql;
 import jakarta.persistence.*;
 
 @Entity
+@NamedQuery(name = "Member.findByUserName",query = "select m from Member m where m =:member")
 public class Member {
     @Id @GeneratedValue
     private Long id;
