@@ -47,7 +47,9 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            em.createNamedQuery("Member.findByUserName").setParameter("member",member2).getResultList();
+            int rscnt = em.createQuery("update Member m set m.age = 20")
+                    .executeUpdate();
+            System.out.println("rscnt = " + rscnt);
             tx.commit();
         }
         catch (Exception e)
