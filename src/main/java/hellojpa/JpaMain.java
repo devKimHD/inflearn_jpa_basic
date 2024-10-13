@@ -47,15 +47,22 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String sql="select m from Member m join fetch m.team";
-            List<Member> resultList = em.createQuery(sql, Member.class).getResultList();
-            for (Member member1 : resultList) {
-                System.out.println("member1 = " + member1 +","+ member1.getTeam().getName());
+            String sql="select t from Team t  ";
+            //하이버네이트 6이상부터는 자동중복 제거가 기본
+            List<Team> resultList = em.createQuery(sql, Team.class)
+                    .setFirstResult(0)
+                    .setMaxResults(2)
+                    .getResultList();
+            //이러면 DB에서 일단 가져온 후 메모리가 페이징 처리 쿼리에 페이징이 안됨
+            //일대다 -> 다대일로 변환 처리
+            for (Team team1 : resultList) {
+                System.out.println("team1 = " + team1.getName()+","+ team1.getMembers().size());
+                List<Member> members = team1.getMembers();
+                for (Member member1 : members) {
+                    System.out.println(" -  member1 = " + member1);
+                }
             }
-            //u1 sql
-            //u2 persistance 1 cache
-            //u3 sql
-            //u1~u100 회원 100명 팀이?? 100개 면 -> N+1 ==> 즉시나 지연이나 같은현상 그래서 fetch
+
             tx.commit();
         }
         catch (Exception e)
